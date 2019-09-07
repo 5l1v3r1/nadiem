@@ -5,6 +5,7 @@ $phonee = get();
 $atokgojek = "token_gojek_$phonee.txt";
 if(!file_exists($atokgojek)){
 	$otptoken = execute("register", $phonee);
+	print_r($otptoken);
 	if(empty($otptoken)) exit("Gagal Send OTP! Gunakan Nope Lain!\n");
 	echo "# OTP Sended | OTP Token : $otptoken\n";
 	VerifyOtp:
@@ -79,7 +80,7 @@ if($c == 1){
 	}
 	BayarAwal:
 		echo "\r[1/4] Membuat Transaksi.. ";
-		$getInq = execute("getInquire", $atok, $prod);
+		$getInq = @json_decode(execute("getInquire", $atok, $prod), true);
 		$inqid = @$getInq['data']['meta_data']['inquiry_id'];
 		if(empty($inqid)){
 			$reason = $getInq['errors'][0]['message'];
@@ -105,7 +106,7 @@ if($c == 1){
 		exit("Gagal Mendapatkan, Transaksi Dibatalkan!\n");
 	}
 	echo "[3/4] Membayar Transaksi... ";
-	$pay = execute("pay", $atok, $inqid, $voc, $pin, $prod);
+	$pay = @json_decode(execute("pay", $atok, $inqid, $voc, $pin, $prod), true);
 	$saldo = execute("getSaldo", $atok);
 	if($pay['success']){
 		while(true){
