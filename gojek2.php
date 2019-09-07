@@ -5,7 +5,6 @@ $phonee = get();
 $atokgojek = "token_gojek_$phonee.txt";
 if(!file_exists($atokgojek)){
 	$otptoken = execute("register", $phonee);
-	print_r($otptoken);
 	if(empty($otptoken)) exit("Gagal Send OTP! Gunakan Nope Lain!\n");
 	echo "# OTP Sended | OTP Token : $otptoken\n";
 	VerifyOtp:
